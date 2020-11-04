@@ -4,12 +4,12 @@ import re
 print('Вводите данные через запятую. Если желаете пропустить вопрос, ничего не вводите и жмите enter')
 
 dates = input('Какие года выхода игры вас интересуют?').split(',')
-publishers = input('Какие издатели игр вам интересны?').split(',')
-platforms = input('На каких платформах планируете устанавливать игру?').split(',')
-categories = input('Какие категории игр предпочтительны? (Multi-player, single-player...)').split(',')
-genres = input('Каких жанров игры подыскать?(Action, Strategy...)').split(',')
+publishers = input('Какие издатели игр вам интересны?').lower().split(',')
+platforms = input('На каких платформах планируете устанавливать игру?').lower().split(',')
+categories = input('Какие категории игр предпочтительны? (Multi-player, single-player...)').lower().split(',')
+genres = input('Каких жанров игры подыскать?(Action, Strategy...)').lower().split(',')
 prices = input('Какая максимальная цена в долларах? (введите только один ответ)')
-ratings = input('Напишите "yes", если для вас важно, чтобы положительных отзывов было больше, чем отрицательных:')
+ratings = input('Напишите "yes", если вам важно, чтобы положительных отзывов было больше, чем отрицательных:').lower()
 
 
 def get_date(argument):
@@ -41,7 +41,7 @@ def get_price(argument, res=prices):
 
 
 def get_rating(argument):
-    return ((ratings == "yes") and argument > 0) or (ratings == '')
+    return ((ratings == 'yes') and argument > 0) or (ratings == '')
 
 
 with open('steam.csv', encoding='utf-8') as f1, \
@@ -52,14 +52,14 @@ with open('steam.csv', encoding='utf-8') as f1, \
             continue
 
         res_dates = row[2].split('-')
-        res_publishers = row[5].split(';')
-        res_platforms = row[6].split(';')
-        res_categories = row[8].split(';')
-        res_genres = row[9].split(';')
+        res_publishers = row[5].lower().split(';')
+        res_platforms = row[6].lower().split(';')
+        res_categories = row[8].lower().split(';')
+        res_genres = row[9].lower().split(';')
         res_prices = float(row[17])
         res_ratings = int(row[12]) - int(row[13])
 
         if (get_date(res_dates) and get_publisher(res_publishers) and get_platform(res_platforms) and
                 get_category(res_categories) and get_genre(res_genres) and
                 get_price(res_prices) and get_rating(res_ratings)):
-            f2.write(row[1] + "\n")
+            f2.write(row[1] + '\n')
